@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+		<PublishSingleFile>true</PublishSingleFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="IdGen.Configuration\AppConfigFactory.cs" />
+		<Compile Remove="IdGen.Configuration\IdGeneratorElement.cs" />
+		<Compile Remove="IdGen.Configuration\IdGeneratorsCollection.cs" />
+		<Compile Remove="IdGen.Configuration\IdGeneratorsSection.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="IdGen.Configuration\" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Salt.System.CmdLineArgs.Parser.Core" Version="1.0.0" />
+	</ItemGroup>
+</Project>
