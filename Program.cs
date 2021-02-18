@@ -23,13 +23,13 @@ namespace IdGen
 			string exe = Environment.GetCommandLineArgs()[0];
 			FileInfo info = new FileInfo(exe);
 			parms.Add(info.Name.Replace(info.Extension, ".exe")); //Parser expects first argument to be the name of the executable.
-			if (parms.Count == 0 || ((!args.Contains("-gc") || !args.Contains("--gen-count")) && !(args.Contains("-h") || args.Contains("--help"))))
+			if (parms.Count == 0 || (!(args.Any(x => x.Contains("-gc")) || args.Any(x => x.Contains("--gen-count"))) && !(args.Contains("-h") || args.Contains("--help"))))
 			{
 				parms.Add($"-{count.Alias}");
 			}
 			parms.AddRange(args.ToList());
 			ParsingResults parsingResults = parser.Parse(parms.ToArray());
-			if (parsingResults.ParsedValues.ContainsKey(help.Destination))
+			if (parsingResults.ParsedValues.ContainsKey(help.Destination) && (bool)parsingResults.ParsedValues[help.Destination])
 			{
 				writeHelpInfo(parser);
 				return;
@@ -41,7 +41,7 @@ namespace IdGen
 			IdGenerator idGen = new IdGenerator(0);
 			IEnumerable<long> ids = idGen.Take(gc);
 
-			if (parsingResults.ParsedValues.ContainsKey(o.Destination))
+			if (parsingResults.ParsedValues.ContainsKey(o.Destination) && parsingResults.ParsedValues[o.Destination] != null)
 			{
 				writeToFile(ids, parsingResults.GetParsedValue<string>(o.Destination));
 			}
