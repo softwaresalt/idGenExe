@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Generates Id's inspired by Twitter's (late) Snowflake project.
@@ -168,7 +168,7 @@ namespace IdGen
 		/// based on the current <see cref="IdStructure"/> of the generator.
 		/// </summary>
 		/// <param name="id">The Id to extract information from.</param>
-		/// <returns>Returns an <see cref="IdGen.Id" /> that contains information about the 'decoded' Id.</returns>
+		/// <returns>Returns an <see cref="IDGen.Id" /> that contains information about the 'decoded' Id.</returns>
 		/// <remarks>
 		/// IMPORTANT: note that this method relies on the <see cref="IdStructure"/> and timesource; if the id was
 		/// generated with a diffferent IdStructure and/or timesource than the current one the 'decoded' ID will NOT

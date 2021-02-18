@@ -1,7 +1,7 @@
 ﻿//Source: https://github.com/RobThree/IdGen
 using System;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// The exception that is thrown when a sequence overflows (e.g. too many Id's generated within the same timespan (ms)).

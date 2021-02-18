@@ -5,7 +5,7 @@ using System.CommandLine.Arguments;
 using System.IO;
 using System.Linq;
 
-namespace IdGen
+namespace IDGen
 {
 	internal class Program
 	{

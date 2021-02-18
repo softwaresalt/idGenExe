@@ -1,7 +1,7 @@
 ﻿//Source: https://github.com/RobThree/IdGen
 using System;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Specifies the number of bits to use for the different parts of an Id for an <see cref="IdGenerator"/>.

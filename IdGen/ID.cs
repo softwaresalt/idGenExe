@@ -1,7 +1,7 @@
 ﻿//Source: https://github.com/RobThree/IdGen
 using System;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Holds information about a decoded id.

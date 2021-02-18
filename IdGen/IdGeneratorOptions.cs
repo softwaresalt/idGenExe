@@ -1,7 +1,7 @@
 ﻿//Source: https://github.com/RobThree/IdGen
 using System;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Represents the options an <see cref="IdGenerator"/> can be configured with.

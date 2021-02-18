@@ -1,7 +1,7 @@
 ﻿//Source: https://github.com/RobThree/IdGen
 using System;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Provides the interface for timesources that provide time information to <see cref="IdGenerator"/>s.

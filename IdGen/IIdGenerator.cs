@@ -1,7 +1,7 @@
 ﻿//Source: https://github.com/RobThree/IdGen
 using System.Collections.Generic;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Provides the interface for Id-generators.

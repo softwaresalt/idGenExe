@@ -1,5 +1,5 @@
 ﻿//Source: https://github.com/RobThree/IdGen
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Specifies the strategy to use when a sequence overflow occurs during generation of an ID.

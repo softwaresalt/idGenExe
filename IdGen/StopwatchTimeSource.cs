@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Provides time data to an <see cref="IdGenerator"/>. This timesource uses a <see cref="Stopwatch"/> for timekeeping.

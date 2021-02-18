@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IdGen
+namespace IDGen
 {
 	/// <summary>
 	/// Provides time data to an <see cref="IdGenerator"/>.
