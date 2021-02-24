@@ -2,7 +2,7 @@
   "profiles": {
     "idGenExe": {
       "commandName": "Project",
-      "commandLineArgs": "IDGen.exe"
+      "commandLineArgs": "-h"
     }
   }
 }

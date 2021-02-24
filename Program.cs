@@ -18,26 +18,39 @@ namespace IDGen
 			FlagArgument<bool> overWrite = parser.CreateFlagArgument<bool>("create", "c", "Create", "Create the output file; will overwrite existing file.");
 			FlagArgument<bool> help = parser.CreateFlagArgument<bool>("help", "h", "Help", "Output parameter options to app.");
 			parser.AddNamedArgument(count).AddNamedArgument(o).AddFlagArgument(overWrite).AddFlagArgument(help);
-			ParsingResults pr = parser.Parse(args);
-			if (pr.HasParsedValue(help.Destination) && pr.GetParsedValue<bool>(help.Destination))
+			FileInfo file = new FileInfo(Environment.GetCommandLineArgs()[0]);
+			List<string> parms = new List<string>();
+			parms.Add(file.Name.Replace(file.Extension, ".exe")); //First command is the application itself.
+			parms.AddRange(args);
+			try
 			{
+				ParsingResults pr = parser.Parse(parms);
+
+				if (pr.HasParsedValue(help.Destination) && pr.GetParsedValue<bool>(help.Destination))
+				{
+					writeHelpInfo(parser);
+					return;
+				}
+
+				int gc = pr.GetParsedValue<int>(count.Destination);
+
+				//IdGenerator initializer can be improved to include custom IdGeneratorOptions.
+				IdGenerator idGen = new IdGenerator(0);
+				IEnumerable<long> ids = idGen.Take(gc);
+
+				if (pr.HasParsedValue(o.Destination))
+				{
+					writeToFile(ids, pr.GetParsedValue<string>(o.Destination), pr.GetParsedValue<bool>(overWrite.Destination));
+				}
+				else
+				{
+					foreach (long id in ids) { Console.WriteLine(id); }
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine($"{e.GetType()}: {e.Message}");
 				writeHelpInfo(parser);
-				return;
-			}
-
-			int gc = pr.GetParsedValue<int>(count.Destination);
-
-			//IdGenerator initializer can be improved to include custom IdGeneratorOptions.
-			IdGenerator idGen = new IdGenerator(0);
-			IEnumerable<long> ids = idGen.Take(gc);
-
-			if (pr.HasParsedValue(o.Destination))
-			{
-				writeToFile(ids, pr.GetParsedValue<string>(o.Destination), pr.GetParsedValue<bool>(overWrite.Destination));
-			}
-			else
-			{
-				foreach (long id in ids) { Console.WriteLine(id); }
 			}
 		}
 
