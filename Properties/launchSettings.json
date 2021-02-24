@@ -1,7 +1,8 @@
 {
   "profiles": {
     "idGenExe": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "IDGen.exe"
     }
   }
 }

@@ -13,37 +13,27 @@ namespace IDGen
 		{
 			ParserOptions options = new ParserOptions(true, "--", "-", "=");
 			Parser parser = new Parser(options);
-			NamedArgument<int> count = new NamedArgument<int>("gen-count", "gc", "Gencount", "The count of IDs to generate; default=100.", 100, null);
-			NamedArgument<string> o = new NamedArgument<string>("output", "o", "Ouput", "The file location to output the results of the ID generator.", default, null);
-			FlagArgument<bool> help = new FlagArgument<bool>("help", "h", "Help", "Output parameter options to app.");
-			(parser.NamedArguments as List<Argument>).Add(count);
-			(parser.NamedArguments as List<Argument>).Add(o);
-			(parser.FlagArguments as List<Argument>).Add(help);
-			List<string> parms = new List<string>();
-			string exe = Environment.GetCommandLineArgs()[0];
-			FileInfo info = new FileInfo(exe);
-			parms.Add(info.Name.Replace(info.Extension, ".exe")); //Parser expects first argument to be the name of the executable.
-			if (parms.Count == 0 || (!(args.Any(x => x.Contains("-gc")) || args.Any(x => x.Contains("--gen-count"))) && !(args.Contains("-h") || args.Contains("--help"))))
-			{
-				parms.Add($"-{count.Alias}");
-			}
-			parms.AddRange(args.ToList());
-			ParsingResults parsingResults = parser.Parse(parms.ToArray());
-			if (parsingResults.ParsedValues.ContainsKey(help.Destination) && (bool)parsingResults.ParsedValues[help.Destination])
+			NamedArgument<int> count = parser.CreateNamedArgument<int>("gen-count", "gc", "Gencount", "The count of IDs to generate; default=100.", 100, null);
+			NamedArgument<string> o = parser.CreateNamedArgument<string>("output", "o", "Ouput", "The file location to output the results of the ID generator; will append to existing file.", default, null);
+			FlagArgument<bool> overWrite = parser.CreateFlagArgument<bool>("create", "c", "Create", "Create the output file; will overwrite existing file.");
+			FlagArgument<bool> help = parser.CreateFlagArgument<bool>("help", "h", "Help", "Output parameter options to app.");
+			parser.AddNamedArgument(count).AddNamedArgument(o).AddFlagArgument(overWrite).AddFlagArgument(help);
+			ParsingResults pr = parser.Parse(args);
+			if (pr.HasParsedValue(help.Destination) && pr.GetParsedValue<bool>(help.Destination))
 			{
 				writeHelpInfo(parser);
 				return;
 			}
 
-			int gc = parsingResults.GetParsedValue<int>(count.Destination);
+			int gc = pr.GetParsedValue<int>(count.Destination);
 
 			//IdGenerator initializer can be improved to include custom IdGeneratorOptions.
 			IdGenerator idGen = new IdGenerator(0);
 			IEnumerable<long> ids = idGen.Take(gc);
 
-			if (parsingResults.ParsedValues.ContainsKey(o.Destination) && parsingResults.ParsedValues[o.Destination] != null)
+			if (pr.HasParsedValue(o.Destination))
 			{
-				writeToFile(ids, parsingResults.GetParsedValue<string>(o.Destination));
+				writeToFile(ids, pr.GetParsedValue<string>(o.Destination), pr.GetParsedValue<bool>(overWrite.Destination));
 			}
 			else
 			{
@@ -61,7 +51,7 @@ namespace IDGen
 			if (parser.NamedArguments.Any())
 			{
 				Console.WriteLine();
-				Console.WriteLine(@"Example: idGenExe.exe -gc=100 -o=C:\temp\ids.txt");
+				Console.WriteLine(@"Example: idGenExe.exe -gc=100 -o=C:\temp\ids.txt -ow");
 				Console.WriteLine();
 			}
 
@@ -84,17 +74,30 @@ namespace IDGen
 			}
 		}
 
-		private static void writeToFile(IEnumerable<long> ids, string path)
+		private static void writeToFile(IEnumerable<long> ids, string path, bool overwrite = false)
 		{
 			FileInfo info = new FileInfo(path);
 			if (info.Directory.Exists)
 			{
 				if (!info.Exists) { File.AppendAllText(path, String.Empty); }
-				using (StreamWriter writer = info.AppendText())
+				if (overwrite)
 				{
-					foreach (long id in ids)
+					using (StreamWriter writer = info.CreateText())
 					{
-						writer.WriteLine(id);
+						foreach (long id in ids)
+						{
+							writer.WriteLine(id);
+						}
+					}
+				}
+				else
+				{
+					using (StreamWriter writer = info.AppendText())
+					{
+						foreach (long id in ids)
+						{
+							writer.WriteLine(id);
+						}
 					}
 				}
 			}

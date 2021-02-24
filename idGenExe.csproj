@@ -8,6 +8,6 @@
 		<RootNamespace>IDGen</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Salt.System.CmdLineArgs.Parser.Core" Version="1.0.0" />
+		<PackageReference Include="Salt.System.CmdLineArgs.Parser.Core" Version="1.0.1" />
 	</ItemGroup>
 </Project>

@@ -8,7 +8,7 @@ using System.Threading;
 namespace IDGen
 {
 	/// <summary>
-	/// Generates Id's inspired by Twitter's (late) Snowflake project.
+	/// Generates ID's inspired by Twitter's (late) Snowflake project.
 	/// </summary>
 #pragma warning disable CA1710 // Identifiers should have correct suffix
 
